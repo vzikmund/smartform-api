@@ -39,7 +39,7 @@ Každá metoda vrací již zkontrolovanou API odpověď.
 ### Validace e-mailů
 ```php
 $result = $api->validateEmail("info@smartform.cz");
-var_dump($result->exists); // true
+var_dump($result->exists()); // true
 var_dump($result->hint); // null
 ```
 ```php
