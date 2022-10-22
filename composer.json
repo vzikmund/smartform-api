@@ -1,0 +1,24 @@
+{
+  "name": "vzikmund/smartform-api",
+  "description": "Package wrapping connection to the Smartform.cz API methods",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Vzikmund\\SmartformApi\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Vojtěch Zikmund",
+      "email": "jsem@vzikmund.cz"
+    }
+  ],
+  "require": {
+    "php": "^7.3",
+    "guzzlehttp/guzzle": "7.5.0"
+  },
+  "require-dev": {
+    "nette/tester": "v2.4.3"
+  }
+}
