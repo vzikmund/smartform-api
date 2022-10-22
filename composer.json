@@ -20,6 +20,7 @@
     "guzzlehttp/guzzle": "7.5.0"
   },
   "require-dev": {
-    "nette/tester": "v2.4.3"
+    "nette/tester": "v2.4.3",
+    "phpstan/phpstan": "1.8.10"
   }
 }

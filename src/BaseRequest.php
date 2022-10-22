@@ -15,10 +15,15 @@ abstract class BaseRequest
 
     /** @var \GuzzleHttp\Client */
     private $client;
-    /** @var iterable */
+    /** @var callable[] */
     private $logHandlers;
 
-    public function __construct(Client $client, iterable $logHandlers){
+    /**
+     * @param \GuzzleHttp\Client $client
+     * @param callable[]         $logHandlers
+     */
+    public function __construct(Client $client, array $logHandlers)
+    {
         $this->client = $client;
         $this->logHandlers = $logHandlers;
     }
@@ -32,22 +37,21 @@ abstract class BaseRequest
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Vzikmund\SmartformApi\Exception\SmartApiException
      */
-    protected function call(string $uri, string $method, array $data):array{
-
+    protected function call(string $uri, string $method, array $data) : array
+    {
         $this->log(">> calling method $method {$uri}", $data);
 
-        try{
-
+        try {
             $response = $this->client->request($method, $uri, [RequestOptions::JSON => $data]);
             $httpCode = $response->getStatusCode();
 
             # neuspesna autentizace
-            if($httpCode === 401){
+            if ($httpCode === 401) {
                 throw new SmartApiException($httpCode, "Unauthorized. Check your clientId and password");
             }
 
             # chyba v odpovedi
-            if($httpCode !== 200){
+            if ($httpCode !== 200) {
                 throw new SmartApiException($httpCode, "Api returned http code !== 200");
             }
 
@@ -55,25 +59,26 @@ abstract class BaseRequest
             $this->log("<< response code {$httpCode}", ["response_content" => $content]);
 
             # vysledek volani sluzby
-            if($content["resultCode"] === BaseResponse::resultCodeFail){
-                throw new SmartApiException(500, "Api call was not successful. Result code === " . BaseResponse::resultCodeFail);
+            if ($content[ "resultCode" ] === BaseResponse::resultCodeFail) {
+                throw new SmartApiException(
+                    500,
+                    "Api call was not successful. Result code === " . BaseResponse::resultCodeFail
+                );
             }
 
             return $content;
-
-        } catch (SmartApiException $e){
+        } catch (SmartApiException $e) {
             $context = [
                 "http_code" => $e->getHttpCode(),
-                "message" => $e->getMessage()
+                "message"   => $e->getMessage(),
             ];
             $this->log("SmartApiException caught", $context);
             throw $e;
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             $context = ["message" => $e->getMessage(), "code" => $e->getCode()];
             $this->log("Exception caught", $context);
             throw $e;
         }
-
     }
 
 
@@ -85,8 +90,9 @@ abstract class BaseRequest
      *
      * @return void
      */
-    private function log(string $message, array $context):void{
-        foreach ($this->logHandlers as $handler){
+    private function log(string $message, array $context) : void
+    {
+        foreach ($this->logHandlers as $handler) {
             $handler($message, $context);
         }
     }
