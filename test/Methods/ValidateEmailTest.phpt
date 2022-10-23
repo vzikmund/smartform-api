@@ -17,7 +17,8 @@ final class ValidateEmailTest extends BaseTest
 
     public function testValid(){
 
-        $result = $this->api->validateEmail("info@smartform.cz");
+        $request = $this->api->createValidateEmailRequest();
+        $result = $request->validate("info@smartform.cz");
         Assert::true($result->isOk());
         Assert::null($result->errorMessage);
         Assert::true($result->exists());
@@ -28,7 +29,8 @@ final class ValidateEmailTest extends BaseTest
 
     public function testNonValid(){
 
-        $result = $this->api->validateEmail("nonvalid@seznam.cz");
+        $request = $this->api->createValidateEmailRequest();
+        $result = $request->validate("nonvalid@seznam.cz");
         Assert::true($result->isOk());
         Assert::null($result->errorMessage);
         Assert::false($result->exists());
@@ -40,8 +42,8 @@ final class ValidateEmailTest extends BaseTest
 
     public function testBadDomainHint(){
 
-        $result = $this->api->validateEmail("smartform@outlok.cz");
-
+        $request = $this->api->createValidateEmailRequest();
+        $result = $request->validate("smartform@outlok.cz");
         Assert::true($result->isOk());
         Assert::null($result->errorMessage);
         Assert::false($result->exists());

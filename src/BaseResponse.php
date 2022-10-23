@@ -20,19 +20,22 @@ abstract class BaseResponse
     /** @var array */
     protected $content;
 
-    public function __construct(array $content){
+    public function __construct(array $content)
+    {
         $this->content = $content;
     }
 
-    public function getResultCode():string{
-        return $this->content["resultCode"];
+    public function getResultCode() : string
+    {
+        return $this->content[ "resultCode" ];
     }
 
     /**
      * Volani sluzby probehlo v poradku
      * @return bool
      */
-    public function isOk():bool{
+    public function isOk() : bool
+    {
         return $this->getResultCode() === self::resultCodeOk;
     }
 
@@ -42,10 +45,23 @@ abstract class BaseResponse
      *
      * @return mixed|null
      */
-    public function __get($property){
+    public function __get($property)
+    {
         # klic v poli neexistuje
-        if(!array_key_exists($property, $this->content)) return null;
-        return $this->content[$property];
+        if (!array_key_exists($property, $this->content)) {
+            return null;
+        }
+
+        return $this->content[ $property ];
+    }
+
+    /**
+     * Payload ziskany z API
+     * @return array
+     */
+    public function getResponseContent() : array
+    {
+        return $this->content;
     }
 
 }

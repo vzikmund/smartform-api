@@ -8,8 +8,7 @@ namespace Vzikmund\SmartformApi;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
-use Vzikmund\SmartformApi\ValidateEmail\Request;
-use Vzikmund\SmartformApi\ValidateEmail\Response;
+use Vzikmund\SmartformApi;
 
 class Api
 {
@@ -53,13 +52,19 @@ class Api
 
 
     /**
-     *
-     * @param string $emailAddress
-     *
-     * @return \Vzikmund\SmartformApi\ValidateEmail\Response
+     * @return SmartformApi\ValidateEmail\Request
      */
-    public function validateEmail(string $emailAddress):Response{
-        return (new Request($this->client, $this->logHandlers))->validate($emailAddress);
+    public function createValidateEmailRequest():SmartformApi\ValidateEmail\Request{
+        return new SmartformApi\ValidateEmail\Request($this->client, $this->logHandlers);
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return \Vzikmund\SmartformApi\ValidatePerson\Request
+     */
+    public function createValidatePersonRequest(int $id):SmartformApi\ValidatePerson\Request{
+        return new SmartformApi\ValidatePerson\Request($id, $this->client, $this->logHandlers);
     }
 
 }
