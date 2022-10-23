@@ -84,7 +84,7 @@ var_dump($sex->isResultHit()); // true
 
 $vocative = $response->getOutputField(\Vzikmund\SmartformApi\ValidatePerson\Request::fieldFirstnameVocative);
 var_dump($vocative->value); // Jane
-var_dump($vocative->isResultFilledIn()); // false
+var_dump($vocative->isResultFilledIn()); // true
 
 $unknown = $response->getOutputField("non-existing");
 var_dump($unknown); // null
