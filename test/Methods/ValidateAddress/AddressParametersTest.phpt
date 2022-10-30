@@ -18,7 +18,7 @@ use Vzikmund\SmartformApi\ValidateAddress\Request;
 require_once dirname(__DIR__, 2) . "/init.php";
 
 
-final class ValidateAddressParametersTest extends BaseTest
+final class AddressParametersTest extends BaseTest
 {
 
     public function testAddSingleValue(){
@@ -71,4 +71,4 @@ final class ValidateAddressParametersTest extends BaseTest
 
 }
 
-(new ValidateAddressParametersTest($clientId, $password))->run();
+(new AddressParametersTest($clientId, $password))->run();

@@ -43,9 +43,9 @@ final class ValidatePersonNameParts extends BaseTest
 
         $request = $this->api->createValidatePersonRequest(1);
         $request
-            ->addInputField(Request::fieldTitle, "")
-            ->addInputField(Request::fieldFirstname, "Jan")
-            ->addInputField(Request::fieldLastname, "Novák")
+            ->addInputField($request::fieldTitle, "")
+            ->addInputField($request::fieldFirstname, "Jan")
+            ->addInputField($request::fieldLastname, "Novák")
             ->setRequestFields($this->requestFields);
         $response = $request->validate();
 
@@ -53,49 +53,49 @@ final class ValidatePersonNameParts extends BaseTest
         Assert::count(count($this->requestFields), $response->getOutputFields());
         Assert::null($response->getOutputField("non-existing"));
 
-        $field = $response->getOutputField(Request::fieldSex);
+        $field = $response->getOutputField($request::fieldSex);
         Assert::same("M", $field->value);
         Assert::true($field->isResultHit());
         Assert::null($field->hint);
 
-        $field = $response->getOutputField(Request::fieldFirstname);
+        $field = $response->getOutputField($request::fieldFirstname);
         Assert::same("Jan", $field->value);
         Assert::true($field->isResultHit());
         Assert::null($field->hint);
 
-        $field = $response->getOutputField(Request::fieldFirstnameVocative);
+        $field = $response->getOutputField($request::fieldFirstnameVocative);
         Assert::same("Jane", $field->value);
         Assert::true($field->isResultFilledIn());
         Assert::null($field->hint);
 
-        $field = $response->getOutputField(Request::fieldLastnameVocative);
+        $field = $response->getOutputField($request::fieldLastnameVocative);
         Assert::same("Nováku", $field->value);
         Assert::true($field->isResultFilledIn());
         Assert::null($field->hint);
 
-        $field = $response->getOutputField(Request::fieldFullName);
+        $field = $response->getOutputField($request::fieldFullName);
         Assert::same("Jan Novák", $field->value);
         Assert::true($field->isResultHit());
         Assert::null($field->hint);
 
-        $field = $response->getOutputField(Request::fieldTitleBefore);
+        $field = $response->getOutputField($request::fieldTitleBefore);
         Assert::same("", $field->value);
         Assert::true($field->isResultInsufficientData());
         Assert::notNull($field->hint);
         Assert::match("Na vstupu chybí jeden ze sloupců %a%", $field->hint);
 
-        $field = $response->getOutputField(Request::fieldTitleAfter);
+        $field = $response->getOutputField($request::fieldTitleAfter);
         Assert::same("", $field->value);
         Assert::true($field->isResultInsufficientData());
         Assert::notNull($field->hint);
         Assert::match("Na vstupu chybí jeden ze sloupců %a%", $field->hint);
 
-        $field = $response->getOutputField(Request::fieldSalutation);
+        $field = $response->getOutputField($request::fieldSalutation);
         Assert::same("Pan", $field->value);
         Assert::true($field->isResultFilledIn());
         Assert::null($field->hint);
 
-        $field = $response->getOutputField(Request::fieldSalutationVocative);
+        $field = $response->getOutputField($request::fieldSalutationVocative);
         Assert::same("Vážený pane", $field->value);
         Assert::true($field->isResultFilledIn());
         Assert::null($field->hint);

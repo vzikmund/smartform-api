@@ -44,8 +44,9 @@ dokumentaci (https://www.smartform.cz/dokumentace/smartform-api/uvod/). Verze va
 
 | Název            | Verze |     URI |
 |------------------|:-----:|------|
-| Validace e-mailů |   1   | validateEmail/v1 |
-| Validace jmen    |   2   |        validatePerson/v2          |
+| Validace e-mailů |   1   |validateEmail/v1|
+| Validace jmen    |   2   |validatePerson/v2|
+| Validace adres   |   9   |validateAddress/v9|
 
 Každá metoda vrací již zkontrolovanou API odpověď.
 
@@ -71,25 +72,43 @@ var_dump($result->isBadSyntax()); // true
 $id = 1; // Identifikace dotazu – slouží jen pro spárování dotazu a odpovědi. Pro validaci není důležité.
 $request = $api->createValidatePersonRequest($id);
 $request
-        ->addInputField(\Vzikmund\SmartformApi\ValidatePerson\Request::fieldFirstname, "Jan")
-        ->addInputField(\Vzikmund\SmartformApi\ValidatePerson\Request::fieldLastname, "Novák")
+        ->addInputField($request::fieldFirstname, "Jan")
+        ->addInputField($request::fieldLastname, "Novák")
         ->setRequestFields(
             [
-                \Vzikmund\SmartformApi\ValidatePerson\Request::fieldSex,
-                \Vzikmund\SmartformApi\ValidatePerson\Request::fieldFirstname,
-                \Vzikmund\SmartformApi\ValidatePerson\Request::fieldFirstnameVocative,
+                $request::fieldSex,
+                $request::fieldFirstname,
+                $request::fieldFirstnameVocative,
             ]
         );
 $response = $request->validate();
 
-$sex = $response->getOutputField(\Vzikmund\SmartformApi\ValidatePerson\Request::fieldSex);
+$sex = $response->getOutputField($request::fieldSex);
 var_dump($sex->value); // M
 var_dump($sex->isResultHit()); // true
 
-$vocative = $response->getOutputField(\Vzikmund\SmartformApi\ValidatePerson\Request::fieldFirstnameVocative);
+$vocative = $response->getOutputField($request::fieldFirstnameVocative);
 var_dump($vocative->value); // Jane
 var_dump($vocative->isResultFilledIn()); // true
 
 $unknown = $response->getOutputField("non-existing");
 var_dump($unknown); // null
+```
+
+### Validace adres
+```php
+$id = 1; // Identifikace dotazu – slouží jen pro spárování dotazu a odpovědi. Pro validaci není důležité.
+$request = $this->api->createValidateAddressRequest($id);
+$request->addValue($request::valueWholeAddress, "Tomáše Bati 44, Zlín, 760 01")
+        ->addCountryCz();
+
+$response = $request->validate();
+var_dump(count($response->getAddresses())); // 1
+
+foreach ($response->getAddresses() as $address){
+    $coordinates = $address->getCoordinates();
+    $realEstateDetails = $address->getRealEstateDetails();
+    var_dump($realEstateDetails->getValue($realEstateDetails::valueBuildingParcelNumber1)); // "6361"
+    // ...
+}
 ```

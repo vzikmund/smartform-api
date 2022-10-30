@@ -90,14 +90,20 @@ final class Request extends BaseRequest
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Vzikmund\SmartformApi\Exception\SmartApiException
      */
-    public function validate():Response{
+    public function validate() : Response
+    {
         $data = [
-            "id" => $this->id,
-            "values" => $this->getValues(),
+            "id"        => $this->id,
+            "values"    => $this->getValues(),
             "countries" => $this->getCountries(),
-            "configuration" => $this->getConfiguration()
         ];
+
+        if (count($this->getConfiguration()) > 0) {
+            $data[ "configuration" ] = $this->getConfiguration();
+        }
+
         $response = $this->call("validateAddress/v9", "POST", $data);
+
         return new Response($response);
     }
 
@@ -208,7 +214,19 @@ final class Request extends BaseRequest
      */
     public function setSkBratislavaKosiceUndivided(bool $val = true) : self
     {
-        $this->configuration[ "SK_BRATISLAVA_KOSICE_UNDIVIDED" ] = $val;
+        $this->configuration[ "SK_BRATISLAVA_KOSICE_UNDIVIDED" ] = $val ? "true" : "false";
+
+        return $this;
+    }
+
+    /**
+     * Pražské obvody praha 1 - 10 jsou považovány za obce
+     * @param bool $val
+     *
+     * @return $this
+     */
+    public function setCzPrahaDividedInto10Parts(bool $val = true){
+        $this->configuration[ "CZ_PRAHA_DIVIDED_INTO_10_PARTS" ] = $val ? "true" : "false";
 
         return $this;
     }

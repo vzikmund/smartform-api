@@ -26,10 +26,10 @@ final class ValidatePersonTest extends BaseTest
             $request->setRequestFields(["nesmysl"]);
         }, InvalidArgumentException::class, 'Unknown request field %a%');
         Assert::noError(function () use ($request) {
-            $request->setRequestFields([Request::fieldLastname]);
+            $request->setRequestFields([$request::fieldLastname]);
         });
         Assert::count(1, $request->getRequestedFields());
-        Assert::equal([["fieldType" => Request::fieldLastname]], $request->getRequestedFields());
+        Assert::equal([["fieldType" => $request::fieldLastname]], $request->getRequestedFields());
     }
 
     public function testInputFields()
@@ -41,15 +41,15 @@ final class ValidatePersonTest extends BaseTest
 
         Assert::noError(function () use ($request) {
             $request
-                ->addInputField(Request::fieldFirstname, "Jméno")
-                ->addInputField(Request::fieldLastname, "Příjmení");
+                ->addInputField($request::fieldFirstname, "Jméno")
+                ->addInputField($request::fieldLastname, "Příjmení");
         });
 
         Assert::count(2, $request->getInputFields());
         Assert::equal(
             [
-                ["fieldType" => Request::fieldFirstname, "value" => "Jméno"],
-                ["fieldType" => Request::fieldLastname, "value" => "Příjmení"],
+                ["fieldType" => $request::fieldFirstname, "value" => "Jméno"],
+                ["fieldType" => $request::fieldLastname, "value" => "Příjmení"],
             ],
             $request->getInputFields()
         );

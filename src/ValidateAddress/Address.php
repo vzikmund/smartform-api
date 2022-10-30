@@ -35,17 +35,17 @@ final class Address
         /** Kód části obce */
         valueMunicipalityPartCode = "MUNICIPALITY_PART_CODE",
         /** Název městské části – např. "Praha 13" */
-        valueArea1Name = "CITY_AREA_1_NAME",
+        valueCityArea1Name = "CITY_AREA_1_NAME",
         /** Kód městské části v RUIAN */
-        valueArea1Code = "CITY_AREA_1_CODE",
+        valueCityArea1Code = "CITY_AREA_1_CODE",
         /** Pražský obvod – jen pro Prahu ("Praha 1" – "Praha 10) */
-        valueArea2Name = "CITY_AREA_2_NAME",
+        valueCityArea2Name = "CITY_AREA_2_NAME",
         /** Kód pražskeho obvodu v RUIAN */
-        valueArea2Code = "CITY_AREA_2_CODE",
+        valueCityArea2Code = "CITY_AREA_2_CODE",
         /** Správní obvod – v Praze je "Praha 1" – "Praha 22" */
-        valueArea3Name = "CITY_AREA_3_NAME",
+        valueCityArea3Name = "CITY_AREA_3_NAME",
         /** Kód správního obvodu v RUIAN */
-        valueArea3Code = "CITY_AREA_3_CODE",
+        valueCityArea3Code = "CITY_AREA_3_CODE",
         /** Název volebního okrsku. V Česku číslo volebního okrsku (unikátní v rámci obce) */
         valueElectoralAreaName = "ELECTORAL_AREA_NAME",
         /** Kód volebního okrsku */
@@ -160,6 +160,10 @@ final class Address
         return $this->coordinates;
     }
 
+    /**
+     * Informace o nemovitosti — pokud nejsou známé, je hodnota null
+     * @return \Vzikmund\SmartformApi\ValidateAddress\Address\RealEstateDetails|null
+     */
     public function getRealEstateDetails() : ?RealEstateDetails
     {
         # informace byly jiz jednou vyzadany

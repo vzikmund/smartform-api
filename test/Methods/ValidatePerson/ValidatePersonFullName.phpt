@@ -52,32 +52,32 @@ final class ValidatePersonFullName extends BaseTest
 
         Assert::null($response->getOutputField("non-existing"));
 
-        $field = $response->getOutputField(Request::fieldSex);
+        $field = $response->getOutputField($request::fieldSex);
         Assert::same("M", $field->value);
         Assert::true($field->isResultHit());
         Assert::null($field->hint);
 
-        $field = $response->getOutputField(Request::fieldFirstnameVocative);
+        $field = $response->getOutputField($request::fieldFirstnameVocative);
         Assert::same("Jane", $field->value);
         Assert::true($field->isResultFilledIn());
         Assert::null($field->hint);
 
-        $field = $response->getOutputField(Request::fieldLastnameVocative);
+        $field = $response->getOutputField($request::fieldLastnameVocative);
         Assert::same("Nováku", $field->value);
         Assert::true($field->isResultFilledIn());
         Assert::null($field->hint);
 
-        $field = $response->getOutputField(Request::fieldTitleBefore);
+        $field = $response->getOutputField($request::fieldTitleBefore);
         Assert::same("", $field->value);
         Assert::true($field->isResultHit());
         Assert::null($field->hint);
 
-        $field = $response->getOutputField(Request::fieldSalutation);
+        $field = $response->getOutputField($request::fieldSalutation);
         Assert::same("Pan", $field->value);
         Assert::true($field->isResultFilledIn());
         Assert::null($field->hint);
 
-        $field = $response->getOutputField(Request::fieldSalutationVocative);
+        $field = $response->getOutputField($request::fieldSalutationVocative);
         Assert::same("Vážený pane", $field->value);
         Assert::true($field->isResultFilledIn());
         Assert::null($field->hint);
@@ -87,38 +87,38 @@ final class ValidatePersonFullName extends BaseTest
 
         $request = $this->api->createValidatePersonRequest(1);
         $request
-            ->addInputField(Request::fieldFullName, "Anna")
+            ->addInputField($request::fieldFullName, "Anna")
             ->setRequestFields($this->requestFields);
         $response = $request->validate();
 
         Assert::null($response->errorMessage);
 
-        $field = $response->getOutputField(Request::fieldSex);
+        $field = $response->getOutputField($request::fieldSex);
         Assert::same("Ž", $field->value);
         Assert::true($field->isResultHit());
         Assert::null($field->hint);
 
-        $field = $response->getOutputField(Request::fieldFirstnameVocative);
+        $field = $response->getOutputField($request::fieldFirstnameVocative);
         Assert::same("Anno", $field->value);
         Assert::true($field->isResultFilledIn());
         Assert::null($field->hint);
 
-        $field = $response->getOutputField(Request::fieldLastnameVocative);
+        $field = $response->getOutputField($request::fieldLastnameVocative);
         Assert::same("", $field->value);
         Assert::true($field->isResultNothing());
         Assert::null($field->hint);
 
-        $field = $response->getOutputField(Request::fieldTitleBefore);
+        $field = $response->getOutputField($request::fieldTitleBefore);
         Assert::same("", $field->value);
         Assert::true($field->isResultHit());
         Assert::null($field->hint);
 
-        $field = $response->getOutputField(Request::fieldSalutation);
+        $field = $response->getOutputField($request::fieldSalutation);
         Assert::same("Paní", $field->value);
         Assert::true($field->isResultFilledIn());
         Assert::null($field->hint);
 
-        $field = $response->getOutputField(Request::fieldSalutationVocative);
+        $field = $response->getOutputField($request::fieldSalutationVocative);
         Assert::same("Vážená paní", $field->value);
         Assert::true($field->isResultFilledIn());
         Assert::null($field->hint);
@@ -128,44 +128,44 @@ final class ValidatePersonFullName extends BaseTest
 
         $request = $this->api->createValidatePersonRequest(1);
         $request
-            ->addInputField(Request::fieldFullName, "Prof. Ing. Csc Vlasta Koníčková")
+            ->addInputField($request::fieldFullName, "Prof. Ing. Csc Vlasta Koníčková")
             ->setRequestFields($this->requestFields);
         $response = $request->validate();
 
         Assert::null($response->errorMessage);
 
-        $field = $response->getOutputField(Request::fieldSex);
+        $field = $response->getOutputField($request::fieldSex);
         Assert::same("Ž", $field->value);
         Assert::true($field->isResultHit());
         Assert::null($field->hint);
 
-        $field = $response->getOutputField(Request::fieldFirstnameVocative);
+        $field = $response->getOutputField($request::fieldFirstnameVocative);
         Assert::same("Vlasto", $field->value);
         Assert::true($field->isResultFilledIn());
         Assert::null($field->hint);
 
-        $field = $response->getOutputField(Request::fieldLastname);
+        $field = $response->getOutputField($request::fieldLastname);
         Assert::same("Koníčková", $field->value);
         Assert::true($field->isResultHit());
         Assert::null($field->hint);
 
-        $field = $response->getOutputField(Request::fieldLastnameVocative);
+        $field = $response->getOutputField($request::fieldLastnameVocative);
         Assert::same("Koníčková", $field->value);
         Assert::true($field->isResultFilledIn());
         Assert::null($field->hint);
 
-        $field = $response->getOutputField(Request::fieldFullName);
+        $field = $response->getOutputField($request::fieldFullName);
         Assert::same("prof. Ing. Vlasta Koníčková, CSc.", $field->value);
         Assert::true($field->isResultHit());
         Assert::null($field->hint);
 
 
-        $field = $response->getOutputField(Request::fieldTitleBefore);
+        $field = $response->getOutputField($request::fieldTitleBefore);
         Assert::same("prof. Ing.", $field->value);
         Assert::true($field->isResultHit());
         Assert::null($field->hint);
 
-        $field = $response->getOutputField(Request::fieldTitleAfter);
+        $field = $response->getOutputField($request::fieldTitleAfter);
         Assert::same("CSc.", $field->value);
         Assert::true($field->isResultHit());
         Assert::null($field->hint);

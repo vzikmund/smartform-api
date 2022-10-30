@@ -10,6 +10,7 @@ use Vzikmund\SmartformApi\BaseResponse;
 
 /**
  * @property-read string|null $errorMessage
+ * @property-read int $id
  */
 final class Response extends BaseResponse
 {
@@ -27,10 +28,16 @@ final class Response extends BaseResponse
     /** @var null|Hint */
     private $hint = null;
 
+    /** @var Address[] */
+    private $addresses = [];
+
     public function __construct(array $content)
     {
         parent::__construct($content);
         $this->result = $content[ "result" ];
+        foreach ($this->result[ "addresses" ] as $address) {
+            $this->addresses[] = new Address($address);
+        }
     }
 
     /**
@@ -83,6 +90,15 @@ final class Response extends BaseResponse
         $this->hint = new Hint($hint);
 
         return $this->hint;
+    }
+
+    /**
+     * Nalezene adresy
+     * @return array|Address[]
+     */
+    public function getAddresses() : array
+    {
+        return $this->addresses;
     }
 
 }
