@@ -39,7 +39,7 @@ abstract class BaseRequest
      */
     protected function call(string $uri, string $method, array $data) : array
     {
-        $this->log(">> calling method $method {$uri}", $data);
+        $this->log(">> calling method $method {$uri}", $data, false);
 
         try {
             $response = $this->client->request($method, $uri, [RequestOptions::JSON => $data]);
@@ -56,7 +56,7 @@ abstract class BaseRequest
             }
 
             $content = json_decode($response->getBody()->getContents(), true);
-            $this->log("<< response code {$httpCode}", ["response_content" => $content]);
+            $this->log("<< response code {$httpCode}", ["response_content" => $content], false);
 
             # vysledek volani sluzby
             if ($content[ "resultCode" ] === BaseResponse::resultCodeFail) {
@@ -72,11 +72,11 @@ abstract class BaseRequest
                 "http_code" => $e->getHttpCode(),
                 "message"   => $e->getMessage(),
             ];
-            $this->log("SmartApiException caught", $context);
+            $this->log("SmartApiException caught", $context, true);
             throw $e;
         } catch (\Exception $e) {
             $context = ["message" => $e->getMessage(), "code" => $e->getCode()];
-            $this->log("Exception caught", $context);
+            $this->log("Exception caught", $context, true);
             throw $e;
         }
     }
@@ -87,14 +87,26 @@ abstract class BaseRequest
      *
      * @param string $message
      * @param array  $context
+     * @param bool $isError
      *
      * @return void
      */
-    private function log(string $message, array $context) : void
+    private function log(string $message, array $context, bool $isError) : void
     {
         foreach ($this->logHandlers as $handler) {
-            $handler($message, $context);
+            $handler($message, $context, $isError);
         }
+    }
+
+    /**
+     * Definovane konstanty ve tride
+     * @return array
+     */
+    protected function getConstants() : array
+    {
+        $reflection = new \ReflectionClass($this);
+
+        return $reflection->getConstants();
     }
 
 }

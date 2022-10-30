@@ -3,9 +3,10 @@
 declare(strict_types = 1);
 
 
-namespace Vzikmund\SmartformApi\Test;
+namespace Vzikmund\SmartformApi\Test\ValidatePerson;
 
 use Tester\Assert;
+use Vzikmund\SmartformApi\Test\BaseTest;
 use Vzikmund\SmartformApi\ValidatePerson\Request;
 
 /**
@@ -42,9 +43,9 @@ final class ValidatePersonNameParts extends BaseTest
 
         $request = $this->api->createValidatePersonRequest(1);
         $request
-            ->setInputField(Request::fieldTitle, "")
-            ->setInputField(Request::fieldFirstname, "Jan")
-            ->setInputField(Request::fieldLastname, "Novák")
+            ->addInputField(Request::fieldTitle, "")
+            ->addInputField(Request::fieldFirstname, "Jan")
+            ->addInputField(Request::fieldLastname, "Novák")
             ->setRequestFields($this->requestFields);
         $response = $request->validate();
 

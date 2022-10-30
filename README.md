@@ -28,8 +28,12 @@ Api komunikaci je možné logovat. Do handleru logů je předávána zpráva (st
 handlerů.
 
 ```php
-$api->addLogHandler(function($message, $context) use ($myLogger){
-    $myLogger->log($message, $context);
+$api->addLogHandler(function($message, $context, $isError) use ($myLogger){
+    if($isError){
+        $myLogger->error($message, $context);
+    }else{
+        $myLogger->info($message, $context);
+    }
 });
 ```
 
@@ -67,8 +71,8 @@ var_dump($result->isBadSyntax()); // true
 $id = 1; // Identifikace dotazu – slouží jen pro spárování dotazu a odpovědi. Pro validaci není důležité.
 $request = $api->createValidatePersonRequest($id);
 $request
-        ->setInputField(\Vzikmund\SmartformApi\ValidatePerson\Request::fieldFirstname, "Jan")
-        ->setInputField(\Vzikmund\SmartformApi\ValidatePerson\Request::fieldLastname, "Novák")
+        ->addInputField(\Vzikmund\SmartformApi\ValidatePerson\Request::fieldFirstname, "Jan")
+        ->addInputField(\Vzikmund\SmartformApi\ValidatePerson\Request::fieldLastname, "Novák")
         ->setRequestFields(
             [
                 \Vzikmund\SmartformApi\ValidatePerson\Request::fieldSex,

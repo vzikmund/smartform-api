@@ -3,9 +3,10 @@
 declare(strict_types = 1);
 
 
-namespace Vzikmund\SmartformApi\Test;
+namespace Vzikmund\SmartformApi\Test\ValidatePerson;
 
 use Tester\Assert;
+use Vzikmund\SmartformApi\Test\BaseTest;
 use Vzikmund\SmartformApi\ValidatePerson\Request;
 
 /**
@@ -42,7 +43,7 @@ final class ValidatePersonFullName extends BaseTest
 
         $request = $this->api->createValidatePersonRequest(1);
         $request
-            ->setInputField(Request::fieldFullName, "Jan Novák")
+            ->addInputField(Request::fieldFullName, "Jan Novák")
             ->setRequestFields($this->requestFields);
         $response = $request->validate();
 
@@ -86,7 +87,7 @@ final class ValidatePersonFullName extends BaseTest
 
         $request = $this->api->createValidatePersonRequest(1);
         $request
-            ->setInputField(Request::fieldFullName, "Anna")
+            ->addInputField(Request::fieldFullName, "Anna")
             ->setRequestFields($this->requestFields);
         $response = $request->validate();
 
@@ -127,7 +128,7 @@ final class ValidatePersonFullName extends BaseTest
 
         $request = $this->api->createValidatePersonRequest(1);
         $request
-            ->setInputField(Request::fieldFullName, "Prof. Ing. Csc Vlasta Koníčková")
+            ->addInputField(Request::fieldFullName, "Prof. Ing. Csc Vlasta Koníčková")
             ->setRequestFields($this->requestFields);
         $response = $request->validate();
 

@@ -2,4 +2,5 @@
 composer.lock
 vendor/*
 test/auth.ini
-test/Methods/output/*
+*.expected
+*.actual

@@ -67,4 +67,14 @@ class Api
         return new SmartformApi\ValidatePerson\Request($id, $this->client, $this->logHandlers);
     }
 
+
+    /**
+     * @param int $id
+     *
+     * @return \Vzikmund\SmartformApi\ValidateAddress\Request
+     */
+    public function createValidateAddressRequest(int $id):SmartformApi\ValidateAddress\Request{
+        return new SmartformApi\ValidateAddress\Request($id, $this->client, $this->logHandlers);
+    }
+
 }

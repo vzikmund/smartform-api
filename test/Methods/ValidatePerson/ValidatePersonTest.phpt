@@ -3,10 +3,11 @@
 declare(strict_types = 1);
 
 
-namespace Vzikmund\SmartformApi\Test;
+namespace Vzikmund\SmartformApi\Test\ValidatePerson;
 
 use Tester\Assert;
 use Vzikmund\SmartformApi\Exception\InvalidArgumentException;
+use Vzikmund\SmartformApi\Test\BaseTest;
 use Vzikmund\SmartformApi\ValidatePerson\Request;
 
 /**
@@ -35,13 +36,13 @@ final class ValidatePersonTest extends BaseTest
     {
         $request = $this->api->createValidatePersonRequest(1);
         Assert::exception(function () use ($request) {
-            $request->setInputField("nesmysl", "hodnota");
+            $request->addInputField("nesmysl", "hodnota");
         }, InvalidArgumentException::class, 'Unknown input field %a%');
 
         Assert::noError(function () use ($request) {
             $request
-                ->setInputField(Request::fieldFirstname, "Jméno")
-                ->setInputField(Request::fieldLastname, "Příjmení");
+                ->addInputField(Request::fieldFirstname, "Jméno")
+                ->addInputField(Request::fieldLastname, "Příjmení");
         });
 
         Assert::count(2, $request->getInputFields());

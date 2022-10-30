@@ -99,7 +99,7 @@ final class Request extends BaseRequest
      * @return $this
      * @throws \Vzikmund\SmartformApi\Exception\InvalidArgumentException
      */
-    public function setInputField(string $type, string $value) : self
+    public function addInputField(string $type, string $value) : self
     {
         $constants = $this->getConstants();
         if (!in_array($type, $constants)) {
@@ -107,6 +107,20 @@ final class Request extends BaseRequest
         }
         $this->inputFields[ $type ] = $value;
 
+        return $this;
+    }
+
+    /**
+     * Nastaveni vice vstupnich hodnot zaroven
+     * @param array $values
+     *
+     * @return $this
+     * @throws \Vzikmund\SmartformApi\Exception\InvalidArgumentException
+     */
+    public function setInputFields(array $values):self{
+        foreach ($values as $type => $value){
+            $this->addInputField($type, $value);
+        }
         return $this;
     }
 
@@ -132,17 +146,6 @@ final class Request extends BaseRequest
         $this->requestedFields = $res;
 
         return $this;
-    }
-
-    /**
-     * Definovane konstanty ve tride
-     * @return array
-     */
-    private function getConstants() : array
-    {
-        $reflection = new \ReflectionClass($this);
-
-        return $reflection->getConstants();
     }
 
 
