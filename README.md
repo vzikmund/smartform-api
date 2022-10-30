@@ -42,15 +42,15 @@ $api->addLogHandler(function($message, $context, $isError) use ($myLogger){
 Funkce třídy jsou pojmenovány tak, aby odpovídali názvům adres v oficiální
 dokumentaci (https://www.smartform.cz/dokumentace/smartform-api/uvod/). Verze validací jsou volány následující:
 
-| Název            | Verze |     URI |
-|------------------|:-----:|------|
-| Validace e-mailů |   1   |validateEmail/v1|
-| Validace jmen    |   2   |validatePerson/v2|
-| Validace adres   |   9   |validateAddress/v9|
+| Název                               | Verze |     URI |
+|-------------------------------------|:-----:|------|
+| [Validace e-mailů](#validaceEmailu) |   1   |validateEmail/v1|
+| [Validace jmen](#validaceJmen)      |   2   |validatePerson/v2|
+| [Validace adres](#validaceAdres)    |   9   |validateAddress/v9|
 
 Každá metoda vrací již zkontrolovanou API odpověď.
 
-### Validace e-mailů
+### <a id="validaceEmailu"></a>Validace e-mailů
 
 ```php
 $request = $api->createValidateEmailRequest();
@@ -66,7 +66,7 @@ var_dump($result->exists()); // false
 var_dump($result->isBadSyntax()); // true
 ```
 
-### Validace jmen
+### <a id="validaceJmen"></a>Validace jmen
 
 ```php
 $id = 1; // Identifikace dotazu – slouží jen pro spárování dotazu a odpovědi. Pro validaci není důležité.
@@ -95,7 +95,7 @@ $unknown = $response->getOutputField("non-existing");
 var_dump($unknown); // null
 ```
 
-### Validace adres
+### <a id="validaceAdres"></a>Validace adres
 ```php
 $id = 1; // Identifikace dotazu – slouží jen pro spárování dotazu a odpovědi. Pro validaci není důležité.
 $request = $this->api->createValidateAddressRequest($id);
